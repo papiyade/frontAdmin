@@ -1,0 +1,344 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-gradient-start to-gradient-end rounded-2xl p-8 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2">Bienvenue, Super Administrateur ! 👑</h1>
+                            <p class="text-blue-100 text-lg">Voici un aperçu global de votre plateforme</p>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-crown text-4xl text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div id="statsCards"></div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Companies Growth Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Croissance des Entreprises</h3>
+                        <div class="flex space-x-2">
+                            <button class="text-sm px-3 py-1 bg-bic-blue text-white rounded-lg">6M</button>
+                            <button class="text-sm px-3 py-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">1A</button>
+                        </div>
+                    </div>
+                    <canvas id="companiesChart" width="400" height="200"></canvas>
+                </div>
+                
+                <!-- Users Distribution Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Répartition des Utilisateurs</h3>
+                        <i class="fas fa-info-circle text-gray-400 cursor-help" title="Répartition par rôle"></i>
+                    </div>
+                    <canvas id="usersChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <!-- Recent Activity & Quick Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Recent Companies -->
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Entreprises Récentes</h3>
+                            <button onclick="Router.navigate('/superadmin/companies')" class="text-bic-blue hover:text-blue-700 text-sm font-medium">
+                                Voir tout <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="recentCompanies" class="space-y-4"></div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Actions Rapides</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <button onclick="UIComponents.openModal('addCompanyModal')" class="w-full flex items-center justify-center px-4 py-3 gradient-bg text-white rounded-lg hover:gradient-bg-hover transition-all duration-300 btn-animate">
+                            <i class="fas fa-plus mr-2"></i>
+                            Nouvelle Entreprise
+                        </button>
+                        <button onclick="UIComponents.openModal('addAdminModal')" class="w-full flex items-center justify-center px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-300">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Nouvel Admin
+                        </button>
+                        <button onclick="Router.navigate('/superadmin/stats')" class="w-full flex items-center justify-center px-4 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all duration-300">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            Statistiques Avancées
+                        </button>
+                        <button onclick="exportData()" class="w-full flex items-center justify-center px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-300">
+                            <i class="fas fa-download mr-2"></i>
+                            Exporter Données
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add Company Modal -->
+<div id="addCompanyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden modal-backdrop">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md modal-enter">
+        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Nouvelle Entreprise</h3>
+            <button onclick="UIComponents.closeModal('addCompanyModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <form id="addCompanyForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom de l'entreprise</label>
+                    <input type="text" name="name" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Secteur d'activité</label>
+                    <select name="sector" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                        <option value="">Sélectionner...</option>
+                        <option value="tech">Technologie</option>
+                        <option value="finance">Finance</option>
+                        <option value="healthcare">Santé</option>
+                        <option value="education">Éducation</option>
+                        <option value="retail">Commerce</option>
+                        <option value="other">Autre</option>
+                    </select>
+                </div>
+                <div class="flex space-x-3 pt-4">
+                    <button type="button" onclick="UIComponents.closeModal('addCompanyModal')" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+                    <button type="submit" class="flex-1 gradient-bg text-white px-4 py-2 rounded-lg hover:gradient-bg-hover btn-animate">
+                        Créer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize SuperAdmin Dashboard
+function initSuperAdminDashboard() {
+    const user = Auth.getUser();
+    
+    // Render sidebar and header
+    document.getElementById('sidebarContainer').innerHTML = UIComponents.getSidebar(user.role);
+    document.getElementById('headerContainer').innerHTML = UIComponents.getHeader('Tableau de Bord', 'Vue d\'ensemble de la plateforme');
+    
+    // Initialize sidebar functionality
+    UIComponents.initSidebar();
+    
+    // Load stats
+    loadStats();
+    
+    // Load charts
+    loadCharts();
+    
+    // Load recent companies
+    loadRecentCompanies();
+    
+    // Setup form handlers
+    setupFormHandlers();
+}
+
+// Load statistics
+function loadStats() {
+    const stats = [
+        { title: 'Entreprises Totales', value: '247', icon: 'fa-building', color: 'blue', trend: { direction: 'up', value: '12' } },
+        { title: 'Entreprises Actives', value: '189', icon: 'fa-check-circle', color: 'green', trend: { direction: 'up', value: '8' } },
+        { title: 'Utilisateurs Total', value: '12,847', icon: 'fa-users', color: 'purple', trend: { direction: 'up', value: '15' } },
+        { title: 'Revenus Mensuels', value: '€45,230', icon: 'fa-euro-sign', color: 'yellow', trend: { direction: 'up', value: '23' } }
+    ];
+    
+    const statsHTML = stats.map(stat => 
+        UIComponents.getStatCard(stat.title, stat.value, stat.icon, stat.color, stat.trend)
+    ).join('');
+    
+    document.getElementById('statsCards').innerHTML = statsHTML;
+}
+
+// Load charts
+function loadCharts() {
+    // Companies Growth Chart
+    const companiesCtx = document.getElementById('companiesChart').getContext('2d');
+    new Chart(companiesCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Nouvelles Entreprises',
+                data: [12, 19, 15, 25, 22, 30],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+    
+    // Users Distribution Chart
+    const usersCtx = document.getElementById('usersChart').getContext('2d');
+    new Chart(usersCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Admins', 'RH', 'Employés'],
+            datasets: [{
+                data: [247, 892, 11708],
+                backgroundColor: ['#3b82f6', '#10b981', '#8b5cf6'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Load recent companies
+function loadRecentCompanies() {
+    const companies = [
+        { name: 'TechCorp SARL', sector: 'Technologie', users: 45, status: 'active', date: '2024-09-20' },
+        { name: 'FinanceMax', sector: 'Finance', users: 32, status: 'active', date: '2024-09-18' },
+        { name: 'HealthPlus', sector: 'Santé', users: 28, status: 'pending', date: '2024-09-15' },
+        { name: 'EduSoft', sector: 'Éducation', users: 67, status: 'active', date: '2024-09-12' },
+        { name: 'RetailPro', sector: 'Commerce', users: 23, status: 'inactive', date: '2024-09-10' }
+    ];
+    
+    const companiesHTML = companies.map(company => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-building text-white"></i>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-900 dark:text-white">${company.name}</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">${company.sector} • ${company.users} utilisateurs</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="px-2 py-1 text-xs rounded-full ${
+                    company.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                    company.status === 'pending' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                    'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
+                }">
+                    ${company.status === 'active' ? 'Actif' : company.status === 'pending' ? 'En attente' : 'Inactif'}
+                </span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">${Utils.formatDate(company.date)}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('recentCompanies').innerHTML = companiesHTML;
+}
+
+// Setup form handlers
+function setupFormHandlers() {
+    const addCompanyForm = document.getElementById('addCompanyForm');
+    if (addCompanyForm) {
+        addCompanyForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(addCompanyForm);
+            const companyData = Object.fromEntries(formData);
+            
+            // Simulate API call
+            Utils.showToast('Création de l\'entreprise...', 'info');
+            
+            setTimeout(() => {
+                Utils.showToast('Entreprise créée avec succès !', 'success');
+                UIComponents.closeModal('addCompanyModal');
+                addCompanyForm.reset();
+                loadRecentCompanies(); // Refresh the list
+            }, 1500);
+        });
+    }
+}
+
+// Export data function
+function exportData() {
+    Utils.showToast('Préparation de l\'export...', 'info');
+    
+    setTimeout(() => {
+        // Simulate data export
+        const data = {
+            companies: 247,
+            users: 12847,
+            exportDate: new Date().toISOString(),
+            format: 'CSV'
+        };
+        
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `dashboard-export-${Utils.formatDate(new Date(), 'yyyy-mm-dd')}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        Utils.showToast('Export terminé !', 'success');
+    }, 2000);
+}
+</script>

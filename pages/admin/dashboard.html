@@ -1,0 +1,447 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-gradient-start to-gradient-end rounded-2xl p-8 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2">Tableau de Bord Entreprise 🏢</h1>
+                            <p class="text-blue-100 text-lg">Gérez votre entreprise efficacement</p>
+                            <div class="mt-4 flex items-center space-x-4">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-building text-blue-200"></i>
+                                    <span id="companyName" class="text-blue-100">TechCorp SARL</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-calendar text-blue-200"></i>
+                                    <span class="text-blue-100">Aujourd'hui: ${new Date().toLocaleDateString('fr-FR')}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-chart-line text-4xl text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div id="statsCards"></div>
+            </div>
+            
+            <!-- Charts and Analytics -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Team Performance Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Performance des Équipes</h3>
+                        <div class="flex space-x-2">
+                            <button class="text-sm px-3 py-1 bg-bic-blue text-white rounded-lg">Mois</button>
+                            <button class="text-sm px-3 py-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">Année</button>
+                        </div>
+                    </div>
+                    <canvas id="teamPerformanceChart" width="400" height="200"></canvas>
+                </div>
+                
+                <!-- Project Status Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">État des Projets</h3>
+                        <i class="fas fa-info-circle text-gray-400 cursor-help" title="Répartition des projets par statut"></i>
+                    </div>
+                    <canvas id="projectStatusChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <!-- Recent Activity & Quick Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Recent Users -->
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Utilisateurs Récents</h3>
+                            <button onclick="Router.navigate('/admin/users')" class="text-bic-blue hover:text-blue-700 text-sm font-medium">
+                                Voir tout <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="recentUsers" class="space-y-4"></div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Actions Rapides</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <button onclick="UIComponents.openModal('addUserModal')" class="w-full flex items-center justify-center px-4 py-3 gradient-bg text-white rounded-lg hover:gradient-bg-hover transition-all duration-300 btn-animate">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Nouvel Utilisateur
+                        </button>
+                        <button onclick="UIComponents.openModal('addTeamModal')" class="w-full flex items-center justify-center px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-300">
+                            <i class="fas fa-users mr-2"></i>
+                            Nouvelle Équipe
+                        </button>
+                        <button onclick="UIComponents.openModal('addProjectModal')" class="w-full flex items-center justify-center px-4 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all duration-300">
+                            <i class="fas fa-project-diagram mr-2"></i>
+                            Nouveau Projet
+                        </button>
+                        <button onclick="Router.navigate('/admin/company-config')" class="w-full flex items-center justify-center px-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-300">
+                            <i class="fas fa-cog mr-2"></i>
+                            Configuration
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Teams Overview -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 mb-8">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Aperçu des Équipes</h3>
+                        <button onclick="Router.navigate('/admin/teams')" class="text-bic-blue hover:text-blue-700 text-sm font-medium">
+                            Gérer les équipes <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="teamsOverview" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+            </div>
+            
+            <!-- Recent Projects -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Projets Récents</h3>
+                        <button onclick="Router.navigate('/admin/projects')" class="text-bic-blue hover:text-blue-700 text-sm font-medium">
+                            Voir tous les projets <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div id="recentProjects" class="space-y-4"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add User Modal -->
+<div id="addUserModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4 hidden modal-backdrop">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md modal-enter">
+        <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Nouvel Utilisateur</h3>
+            <button onclick="UIComponents.closeModal('addUserModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6">
+            <form id="addUserForm" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Prénom</label>
+                        <input type="text" name="firstName" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom</label>
+                        <input type="text" name="lastName" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+                    <input type="email" name="email" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Rôle</label>
+                    <select name="role" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                        <option value="">Sélectionner...</option>
+                        <option value="hr">Ressources Humaines</option>
+                        <option value="employee">Employé</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Équipe</label>
+                    <select name="team" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-bic-blue">
+                        <option value="">Aucune équipe</option>
+                        <option value="1">Team IT</option>
+                        <option value="2">Team Marketing</option>
+                        <option value="3">Team Finance</option>
+                    </select>
+                </div>
+                <div class="flex space-x-3 pt-4">
+                    <button type="button" onclick="UIComponents.closeModal('addUserModal')" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+                    <button type="submit" class="flex-1 gradient-bg text-white px-4 py-2 rounded-lg hover:gradient-bg-hover btn-animate">
+                        Créer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize Admin Dashboard
+function initAdminDashboard() {
+    const user = Auth.getUser();
+    
+    // Render sidebar and header
+    document.getElementById('sidebarContainer').innerHTML = UIComponents.getSidebar(user.role);
+    document.getElementById('headerContainer').innerHTML = UIComponents.getHeader('Tableau de Bord', 'Gestion de votre entreprise');
+    
+    // Initialize sidebar functionality
+    UIComponents.initSidebar();
+    
+    // Update company name
+    document.getElementById('companyName').textContent = user.company || 'Mon Entreprise';
+    
+    // Load stats
+    loadAdminStats();
+    
+    // Load charts
+    loadAdminCharts();
+    
+    // Load recent data
+    loadRecentUsers();
+    loadTeamsOverview();
+    loadRecentProjects();
+    
+    // Setup form handlers
+    setupAdminFormHandlers();
+}
+
+// Load admin statistics
+function loadAdminStats() {
+    const stats = [
+        { title: 'Utilisateurs Totaux', value: '156', icon: 'fa-users', color: 'blue', trend: { direction: 'up', value: '8' } },
+        { title: 'Équipes Actives', value: '12', icon: 'fa-users-cog', color: 'green', trend: { direction: 'up', value: '2' } },
+        { title: 'Projets en Cours', value: '24', icon: 'fa-project-diagram', color: 'purple', trend: { direction: 'up', value: '5' } },
+        { title: 'Tâches Terminées', value: '89%', icon: 'fa-check-circle', color: 'yellow', trend: { direction: 'up', value: '12' } }
+    ];
+    
+    const statsHTML = stats.map(stat => 
+        UIComponents.getStatCard(stat.title, stat.value, stat.icon, stat.color, stat.trend)
+    ).join('');
+    
+    document.getElementById('statsCards').innerHTML = statsHTML;
+}
+
+// Load admin charts
+function loadAdminCharts() {
+    // Team Performance Chart
+    const teamCtx = document.getElementById('teamPerformanceChart').getContext('2d');
+    new Chart(teamCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Team IT', 'Marketing', 'Finance', 'RH', 'Ventes'],
+            datasets: [{
+                label: 'Productivité (%)',
+                data: [92, 85, 78, 88, 95],
+                backgroundColor: [
+                    'rgba(59, 130, 246, 0.8)',
+                    'rgba(16, 185, 129, 0.8)',
+                    'rgba(139, 92, 246, 0.8)',
+                    'rgba(245, 158, 11, 0.8)',
+                    'rgba(239, 68, 68, 0.8)'
+                ],
+                borderRadius: 8,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+    
+    // Project Status Chart
+    const projectCtx = document.getElementById('projectStatusChart').getContext('2d');
+    new Chart(projectCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['En cours', 'Terminés', 'En attente', 'Annulés'],
+            datasets: [{
+                data: [24, 45, 8, 3],
+                backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Load recent users
+function loadRecentUsers() {
+    const users = [
+        { name: 'Marie Dupont', role: 'RH', team: 'Ressources Humaines', status: 'active', date: '2024-09-22' },
+        { name: 'Jean Martin', role: 'Développeur', team: 'Team IT', status: 'active', date: '2024-09-20' },
+        { name: 'Sophie Bernard', role: 'Designer', team: 'Marketing', status: 'pending', date: '2024-09-18' },
+        { name: 'Pierre Moreau', role: 'Comptable', team: 'Finance', status: 'active', date: '2024-09-15' },
+        { name: 'Julie Petit', role: 'Commercial', team: 'Ventes', status: 'active', date: '2024-09-12' }
+    ];
+    
+    const usersHTML = users.map(user => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 ${Utils.randomColor()} rounded-full flex items-center justify-center">
+                    <span class="text-white font-semibold text-sm">${Utils.getInitials(user.name)}</span>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-900 dark:text-white">${user.name}</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">${user.role} • ${user.team}</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="px-2 py-1 text-xs rounded-full ${
+                    user.status === 'active' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+                }">
+                    ${user.status === 'active' ? 'Actif' : 'En attente'}
+                </span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">${Utils.formatDate(user.date)}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('recentUsers').innerHTML = usersHTML;
+}
+
+// Load teams overview
+function loadTeamsOverview() {
+    const teams = [
+        { name: 'Team IT', members: 12, manager: 'Saliou Kama', projects: 5, color: 'blue' },
+        { name: 'Marketing', members: 8, manager: 'Marie Dupont', projects: 3, color: 'green' },
+        { name: 'Finance', members: 6, manager: 'Pierre Moreau', projects: 2, color: 'purple' },
+        { name: 'RH', members: 4, manager: 'Sophie Bernard', projects: 1, color: 'yellow' },
+        { name: 'Ventes', members: 10, manager: 'Julie Petit', projects: 4, color: 'red' },
+        { name: 'Support', members: 7, manager: 'Jean Martin', projects: 2, color: 'indigo' }
+    ];
+    
+    const teamsHTML = teams.map(team => `
+        <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors cursor-pointer" onclick="Router.navigate('/admin/teams')">
+            <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-${team.color}-500 to-${team.color}-600 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-users text-white text-xl"></i>
+                </div>
+                <span class="text-sm text-gray-500 dark:text-gray-400">${team.projects} projets</span>
+            </div>
+            <h4 class="font-semibold text-gray-900 dark:text-white mb-2">${team.name}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Gérant: ${team.manager}</p>
+            <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-500 dark:text-gray-400">${team.members} membres</span>
+                <i class="fas fa-arrow-right text-gray-400"></i>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('teamsOverview').innerHTML = teamsHTML;
+}
+
+// Load recent projects
+function loadRecentProjects() {
+    const projects = [
+        { name: 'Refonte Site Web', team: 'Team IT', progress: 75, status: 'in-progress', deadline: '2024-10-15' },
+        { name: 'Campagne Marketing Q4', team: 'Marketing', progress: 45, status: 'in-progress', deadline: '2024-11-30' },
+        { name: 'Audit Financier', team: 'Finance', progress: 90, status: 'review', deadline: '2024-09-30' },
+        { name: 'Formation RH', team: 'RH', progress: 100, status: 'completed', deadline: '2024-09-20' },
+        { name: 'CRM Implementation', team: 'Team IT', progress: 30, status: 'in-progress', deadline: '2024-12-15' }
+    ];
+    
+    const projectsHTML = projects.map(project => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+            <div class="flex-1">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-medium text-gray-900 dark:text-white">${project.name}</h4>
+                    <span class="px-2 py-1 text-xs rounded-full ${
+                        project.status === 'completed' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                        project.status === 'review' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300' :
+                        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
+                    }">
+                        ${project.status === 'completed' ? 'Terminé' : project.status === 'review' ? 'En révision' : 'En cours'}
+                    </span>
+                </div>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">${project.team} • Échéance: ${Utils.formatDate(project.deadline)}</p>
+                <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-300" style="width: ${project.progress}%"></div>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                    <span class="text-xs text-gray-500 dark:text-gray-400">Progression</span>
+                    <span class="text-xs font-medium text-gray-700 dark:text-gray-300">${project.progress}%</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('recentProjects').innerHTML = projectsHTML;
+}
+
+// Setup form handlers
+function setupAdminFormHandlers() {
+    const addUserForm = document.getElementById('addUserForm');
+    if (addUserForm) {
+        addUserForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(addUserForm);
+            const userData = Object.fromEntries(formData);
+            
+            // Simulate API call
+            Utils.showToast('Création de l\'utilisateur...', 'info');
+            
+            setTimeout(() => {
+                Utils.showToast('Utilisateur créé avec succès !', 'success');
+                UIComponents.closeModal('addUserModal');
+                addUserForm.reset();
+                loadRecentUsers(); // Refresh the list
+            }, 1500);
+        });
+    }
+}
+</script>
