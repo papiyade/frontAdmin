@@ -1,0 +1,523 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            <i class="fas fa-users-cog text-bic-blue mr-3"></i>
+                            Gestion des Équipes
+                        </h1>
+                        <p class="text-gray-600 dark:text-gray-400">Gérez les équipes et leurs membres</p>
+                    </div>
+                    <button onclick="openAddTeamModal()" class="gradient-bg text-white px-6 py-3 rounded-lg hover:gradient-bg-hover transition-all duration-300 btn-animate">
+                        <i class="fas fa-plus mr-2"></i>
+                        Créer une équipe
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-blue-600 dark:text-blue-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Équipes</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">12</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user-friends text-green-600 dark:text-green-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Membres</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">156</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-project-diagram text-purple-600 dark:text-purple-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Projets Actifs</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">24</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-crown text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Managers</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">12</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Teams Table -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">Liste des Équipes</h3>
+                        <div class="flex space-x-2">
+                            <div class="relative">
+                                <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" id="searchTeams" placeholder="Rechercher une équipe..." 
+                                       class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-900">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Nom
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Description
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Membres
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Créée le
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Dernière modification
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="teamsTableBody" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            <!-- Teams will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add/Edit Team Modal -->
+<div id="teamModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-20 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white" id="teamModalTitle">Créer une équipe</h3>
+                <button onclick="closeTeamModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="teamForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom de l'équipe *</label>
+                    <input type="text" id="teamName" name="teamName" required
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                    <textarea id="teamDescription" name="teamDescription" rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Manager *</label>
+                        <select id="teamManager" name="teamManager" required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner un manager</option>
+                            <option value="1">Saliou Kama</option>
+                            <option value="2">Marie Dupont</option>
+                            <option value="3">Pierre Moreau</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Couleur</label>
+                        <select id="teamColor" name="teamColor"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="blue">Bleu</option>
+                            <option value="green">Vert</option>
+                            <option value="purple">Violet</option>
+                            <option value="red">Rouge</option>
+                            <option value="yellow">Jaune</option>
+                            <option value="indigo">Indigo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeTeamModal()" 
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+                    <button type="submit" 
+                            class="gradient-bg text-white px-6 py-2 rounded-md hover:gradient-bg-hover transition-all duration-300">
+                        <i class="fas fa-save mr-2"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Team Details Modal -->
+<div id="teamDetailsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-4/5 lg:w-3/4 shadow-lg rounded-md bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white" id="teamDetailsTitle">Détails de l'équipe</h3>
+                <button onclick="closeTeamDetailsModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Team Info Tabs -->
+            <div class="border-b border-gray-200 dark:border-gray-700 mb-6">
+                <nav class="-mb-px flex space-x-8">
+                    <button onclick="switchTab('overview')" class="team-tab active py-2 px-1 border-b-2 border-bic-blue text-bic-blue font-medium text-sm">
+                        Aperçu
+                    </button>
+                    <button onclick="switchTab('members')" class="team-tab py-2 px-1 border-b-2 border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 font-medium text-sm">
+                        Membres
+                    </button>
+                </nav>
+            </div>
+            
+            <!-- Tab Content -->
+            <div id="overviewTab" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">Informations générales</h4>
+                        <div id="teamOverviewInfo">
+                            <!-- Team overview will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-medium text-gray-900 dark:text-white mb-2">Statistiques</h4>
+                        <div id="teamStats">
+                            <!-- Team stats will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="membersTab" class="tab-content hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <h4 class="text-lg font-medium text-gray-900 dark:text-white">Membres de l'équipe</h4>
+                    <button onclick="openAddMemberModal()" class="px-4 py-2 bg-bic-blue text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-plus mr-2"></i>
+                        Ajouter un membre
+                    </button>
+                </div>
+                <div id="teamMembers">
+                    <!-- Team members will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize teams page
+function initTeamsPage() {
+    console.log('🔧 Initializing HR Teams Page...');
+    
+    // Load sidebar and header
+    loadSidebar('hr');
+    loadHeader();
+    
+    // Load teams data
+    loadTeams();
+    
+    // Setup event listeners
+    setupTeamsEventListeners();
+    
+    console.log('✅ HR Teams Page Initialized');
+}
+
+// Setup event listeners
+function setupTeamsEventListeners() {
+    const teamForm = document.getElementById('teamForm');
+    if (teamForm) {
+        teamForm.addEventListener('submit', handleTeamSubmit);
+    }
+    
+    const searchInput = document.getElementById('searchTeams');
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(filterTeams, 300));
+    }
+}
+
+// Load teams data
+async function loadTeams() {
+    try {
+        const teams = await MockData.getTeams();
+        displayTeams(teams);
+    } catch (error) {
+        console.error('Error loading teams:', error);
+        showError('Erreur lors du chargement des équipes');
+    }
+}
+
+// Display teams in table
+function displayTeams(teams) {
+    const tbody = document.getElementById('teamsTableBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = teams.map(team => `
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-${team.color}-100 dark:bg-${team.color}-900 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-users text-${team.color}-600 dark:text-${team.color}-400"></i>
+                    </div>
+                    <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900 dark:text-white">${team.name}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Manager: ${team.manager}</div>
+                    </div>
+                </div>
+            </td>
+            <td class="px-6 py-4">
+                <div class="text-sm text-gray-900 dark:text-white">${team.description}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                ${team.members_count}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                ${formatDate(team.created_at)}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                ${formatDate(team.updated_at)}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex space-x-2">
+                    <button onclick="viewTeamDetails(${team.id})" class="text-bic-blue hover:text-blue-700" title="Voir détails">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button onclick="editTeam(${team.id})" class="text-green-600 hover:text-green-700" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteTeam(${team.id})" class="text-red-600 hover:text-red-700" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Modal functions
+function openAddTeamModal() {
+    document.getElementById('teamModalTitle').textContent = 'Créer une équipe';
+    document.getElementById('teamForm').reset();
+    document.getElementById('teamModal').classList.remove('hidden');
+}
+
+function editTeam(teamId) {
+    document.getElementById('teamModalTitle').textContent = 'Modifier l\'équipe';
+    // Load team data into form
+    document.getElementById('teamModal').classList.remove('hidden');
+}
+
+function closeTeamModal() {
+    document.getElementById('teamModal').classList.add('hidden');
+}
+
+function viewTeamDetails(teamId) {
+    // Load team details
+    loadTeamDetails(teamId);
+    document.getElementById('teamDetailsModal').classList.remove('hidden');
+}
+
+function closeTeamDetailsModal() {
+    document.getElementById('teamDetailsModal').classList.add('hidden');
+}
+
+function deleteTeam(teamId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette équipe ?')) {
+        showSuccess('Équipe supprimée avec succès');
+        loadTeams();
+    }
+}
+
+// Load team details
+async function loadTeamDetails(teamId) {
+    try {
+        const teams = await MockData.getTeams();
+        const team = teams.find(t => t.id === teamId);
+        
+        if (team) {
+            document.getElementById('teamDetailsTitle').textContent = team.name;
+            
+            // Load overview
+            document.getElementById('teamOverviewInfo').innerHTML = `
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Manager:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">${team.manager}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Description:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">${team.description}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Créée le:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">${formatDate(team.created_at)}</span>
+                    </div>
+                </div>
+            `;
+            
+            // Load stats
+            document.getElementById('teamStats').innerHTML = `
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Membres:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">${team.members_count}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Projets:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">${team.projects_count}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-sm text-gray-600 dark:text-gray-400">Tâches:</span>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">45</span>
+                    </div>
+                </div>
+            `;
+            
+            // Load members
+            loadTeamMembers(teamId);
+        }
+    } catch (error) {
+        console.error('Error loading team details:', error);
+    }
+}
+
+// Load team members
+async function loadTeamMembers(teamId) {
+    try {
+        const employees = await MockData.getEmployees();
+        const teamMembers = employees.filter(emp => emp.team_id === teamId);
+        
+        document.getElementById('teamMembers').innerHTML = `
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                ${teamMembers.map(member => `
+                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                                <span class="text-white font-medium">${member.name.charAt(0)}</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">${member.name}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400">${member.position}</div>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex justify-between items-center">
+                            <span class="text-xs text-gray-500 dark:text-gray-400">${member.email}</span>
+                            <button onclick="removeMemberFromTeam(${member.id})" class="text-red-600 hover:text-red-700" title="Retirer de l'équipe">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error loading team members:', error);
+    }
+}
+
+// Switch tabs in team details modal
+function switchTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.add('hidden');
+    });
+    
+    // Remove active class from all tabs
+    document.querySelectorAll('.team-tab').forEach(tab => {
+        tab.classList.remove('active', 'border-bic-blue', 'text-bic-blue');
+        tab.classList.add('border-transparent', 'text-gray-500');
+    });
+    
+    // Show selected tab content
+    document.getElementById(tabName + 'Tab').classList.remove('hidden');
+    
+    // Add active class to selected tab
+    event.target.classList.add('active', 'border-bic-blue', 'text-bic-blue');
+    event.target.classList.remove('border-transparent', 'text-gray-500');
+}
+
+// Handle team form submission
+function handleTeamSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const teamData = Object.fromEntries(formData);
+    
+    console.log('Saving team:', teamData);
+    
+    setTimeout(() => {
+        showSuccess('Équipe enregistrée avec succès');
+        closeTeamModal();
+        loadTeams();
+    }, 1000);
+}
+
+// Add member to team
+function openAddMemberModal() {
+    // This would open a modal to add members to the team
+    showSuccess('Fonctionnalité d\'ajout de membre en cours de développement');
+}
+
+function removeMemberFromTeam(memberId) {
+    if (confirm('Êtes-vous sûr de vouloir retirer ce membre de l\'équipe ?')) {
+        showSuccess('Membre retiré de l\'équipe');
+        // Reload team members
+    }
+}
+
+// Filter teams
+function filterTeams() {
+    const searchTerm = document.getElementById('searchTeams').value.toLowerCase();
+    console.log('Filtering teams:', searchTerm);
+    loadTeams(); // Reload with filters
+}
+
+// Format date helper
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('fr-FR');
+}
+</script>
+

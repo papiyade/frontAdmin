@@ -23,8 +23,7 @@ class ClientRouter {
     
     // Navigate to a route
     navigate(path) {
-        window.history.pushState({}, '', path);
-        this.handleRoute(path);
+        window.location.hash = path;
     }
     
     // Handle route changes

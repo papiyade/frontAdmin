@@ -1,0 +1,472 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            <i class="fas fa-user-shield text-bic-blue mr-3"></i>
+                            Gestion des Administrateurs
+                        </h1>
+                        <p class="text-gray-600 dark:text-gray-400">Gérez les administrateurs des entreprises</p>
+                    </div>
+                    <button onclick="openAddAdminModal()" class="gradient-bg text-white px-6 py-3 rounded-lg hover:gradient-bg-hover transition-all duration-300 btn-animate">
+                        <i class="fas fa-plus mr-2"></i>
+                        Ajouter un administrateur
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-user-shield text-purple-600 dark:text-purple-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Admins</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">189</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-check-circle text-green-600 dark:text-green-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Actifs</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">156</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">En attente</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-building text-blue-600 dark:text-blue-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Entreprises</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">189</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="searchAdmins" placeholder="Rechercher un administrateur..." 
+                                   class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+                        
+                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <option value="">Tous les statuts</option>
+                            <option value="active">Actif</option>
+                            <option value="pending">En attente</option>
+                            <option value="inactive">Inactif</option>
+                        </select>
+                        
+                        <select id="companyFilter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <option value="">Toutes les entreprises</option>
+                            <option value="1">TechCorp SARL</option>
+                            <option value="2">FinanceMax</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="exportAdmins()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-download mr-2"></i>
+                            Exporter CSV
+                        </button>
+                        <button onclick="refreshAdmins()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-refresh mr-2"></i>
+                            Actualiser
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admins Table -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead class="bg-gray-50 dark:bg-gray-900">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Administrateur
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Contact
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Entreprise
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Dernière connexion
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Statut
+                                </th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                                    Actions
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminsTableBody" class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            <!-- Admins will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Pagination -->
+                <div class="bg-white dark:bg-gray-800 px-4 py-3 border-t border-gray-200 dark:border-gray-700 sm:px-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            <button id="prevPageMobile" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Précédent
+                            </button>
+                            <button id="nextPageMobile" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Suivant
+                            </button>
+                        </div>
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700 dark:text-gray-300">
+                                    Affichage de <span id="startItem" class="font-medium">1</span> à <span id="endItem" class="font-medium">10</span> sur <span id="totalItems" class="font-medium">189</span> résultats
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" id="paginationNav">
+                                    <!-- Pagination buttons will be generated here -->
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add/Edit Admin Modal -->
+<div id="adminModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-3/4 lg:w-1/2 shadow-lg rounded-md bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white" id="adminModalTitle">Ajouter un administrateur</h3>
+                <button onclick="closeAdminModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="adminForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Prénom *</label>
+                        <input type="text" id="adminFirstName" name="adminFirstName" required
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom *</label>
+                        <input type="text" id="adminLastName" name="adminLastName" required
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email *</label>
+                    <input type="email" id="adminEmail" name="adminEmail" required
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Téléphone</label>
+                        <input type="tel" id="adminPhone" name="adminPhone"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Entreprise *</label>
+                        <select id="adminCompany" name="adminCompany" required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner une entreprise</option>
+                            <option value="1">TechCorp SARL</option>
+                            <option value="2">FinanceMax</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Mot de passe *</label>
+                        <input type="password" id="adminPassword" name="adminPassword" required
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Confirmer le mot de passe *</label>
+                        <input type="password" id="adminPasswordConfirm" name="adminPasswordConfirm" required
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Statut</label>
+                    <select id="adminStatus" name="adminStatus"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                        <option value="active">Actif</option>
+                        <option value="pending">En attente</option>
+                        <option value="inactive">Inactif</option>
+                    </select>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeAdminModal()" 
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+                    <button type="submit" 
+                            class="gradient-bg text-white px-6 py-2 rounded-md hover:gradient-bg-hover transition-all duration-300">
+                        <i class="fas fa-save mr-2"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize admins page
+function initAdminsPage() {
+    console.log('🔧 Initializing Admins Page...');
+    
+    // Load sidebar and header
+    loadSidebar('superadmin');
+    loadHeader();
+    
+    // Load admins data
+    loadAdmins();
+    
+    // Setup event listeners
+    setupAdminsEventListeners();
+    
+    console.log('✅ Admins Page Initialized');
+}
+
+// Setup event listeners
+function setupAdminsEventListeners() {
+    const searchInput = document.getElementById('searchAdmins');
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(filterAdmins, 300));
+    }
+    
+    const statusFilter = document.getElementById('statusFilter');
+    const companyFilter = document.getElementById('companyFilter');
+    
+    if (statusFilter) statusFilter.addEventListener('change', filterAdmins);
+    if (companyFilter) companyFilter.addEventListener('change', filterAdmins);
+    
+    const adminForm = document.getElementById('adminForm');
+    if (adminForm) {
+        adminForm.addEventListener('submit', handleAdminSubmit);
+    }
+}
+
+// Load admins data
+async function loadAdmins() {
+    try {
+        showLoading('adminsTableBody');
+        const users = await MockData.getUsers();
+        const admins = users.filter(user => user.role === 'admin');
+        displayAdmins(admins);
+        updatePagination(admins.length);
+    } catch (error) {
+        console.error('Error loading admins:', error);
+        showError('Erreur lors du chargement des administrateurs');
+    }
+}
+
+// Display admins in table
+function displayAdmins(admins) {
+    const tbody = document.getElementById('adminsTableBody');
+    if (!tbody) return;
+    
+    tbody.innerHTML = admins.map(admin => `
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 h-10 w-10">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center">
+                            <span class="text-white font-medium">${admin.name.charAt(0)}</span>
+                        </div>
+                    </div>
+                    <div class="ml-4">
+                        <div class="text-sm font-medium text-gray-900 dark:text-white">${admin.name}</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">ID: ${admin.id}</div>
+                    </div>
+                </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900 dark:text-white">${admin.email}</div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">${admin.phone || 'N/A'}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900 dark:text-white">${admin.company || 'N/A'}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                Il y a 2 heures
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                    Actif
+                </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <div class="flex space-x-2">
+                    <button onclick="viewAdmin(${admin.id})" class="text-bic-blue hover:text-blue-700" title="Voir">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button onclick="editAdmin(${admin.id})" class="text-green-600 hover:text-green-700" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="toggleAdminStatus(${admin.id})" class="text-yellow-600 hover:text-yellow-700" title="Changer statut">
+                        <i class="fas fa-toggle-on"></i>
+                    </button>
+                    <button onclick="deleteAdmin(${admin.id})" class="text-red-600 hover:text-red-700" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+// Modal functions
+function openAddAdminModal() {
+    document.getElementById('adminModalTitle').textContent = 'Ajouter un administrateur';
+    document.getElementById('adminForm').reset();
+    document.getElementById('adminModal').classList.remove('hidden');
+}
+
+function editAdmin(adminId) {
+    document.getElementById('adminModalTitle').textContent = 'Modifier l\'administrateur';
+    // Load admin data into form
+    document.getElementById('adminModal').classList.remove('hidden');
+}
+
+function closeAdminModal() {
+    document.getElementById('adminModal').classList.add('hidden');
+}
+
+function viewAdmin(adminId) {
+    Router.navigate(`/superadmin/admin/${adminId}`);
+}
+
+function toggleAdminStatus(adminId) {
+    if (confirm('Êtes-vous sûr de vouloir changer le statut de cet administrateur ?')) {
+        showSuccess('Statut de l\'administrateur modifié');
+        loadAdmins();
+    }
+}
+
+function deleteAdmin(adminId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet administrateur ?')) {
+        showSuccess('Administrateur supprimé avec succès');
+        loadAdmins();
+    }
+}
+
+// Filter admins
+function filterAdmins() {
+    const searchTerm = document.getElementById('searchAdmins').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const companyFilter = document.getElementById('companyFilter').value;
+    
+    console.log('Filtering admins:', { searchTerm, statusFilter, companyFilter });
+    loadAdmins(); // Reload with filters
+}
+
+// Export admins
+function exportAdmins() {
+    showSuccess('Export en cours...');
+}
+
+// Refresh admins
+function refreshAdmins() {
+    loadAdmins();
+    showSuccess('Liste actualisée');
+}
+
+// Handle admin form submission
+function handleAdminSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const adminData = Object.fromEntries(formData);
+    
+    // Validate password confirmation
+    if (adminData.adminPassword !== adminData.adminPasswordConfirm) {
+        showError('Les mots de passe ne correspondent pas');
+        return;
+    }
+    
+    console.log('Saving admin:', adminData);
+    
+    setTimeout(() => {
+        showSuccess('Administrateur enregistré avec succès');
+        closeAdminModal();
+        loadAdmins();
+    }, 1000);
+}
+
+// Pagination
+function updatePagination(totalItems) {
+    document.getElementById('totalItems').textContent = totalItems;
+}
+
+// Show loading state
+function showLoading(elementId) {
+    const element = document.getElementById(elementId);
+    if (element) {
+        element.innerHTML = `
+            <tr>
+                <td colspan="6" class="px-6 py-4 text-center">
+                    <div class="flex items-center justify-center">
+                        <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-bic-blue"></div>
+                        <span class="ml-2 text-gray-500 dark:text-gray-400">Chargement...</span>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+</div>
+</script>
+

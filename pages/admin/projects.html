@@ -1,0 +1,411 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            <i class="fas fa-project-diagram text-bic-blue mr-3"></i>
+                            Gestion des Projets
+                        </h1>
+                        <p class="text-gray-600 dark:text-gray-400">Vue globale de tous les projets de l'entreprise</p>
+                    </div>
+                    <button onclick="openAddProjectModal()" class="gradient-bg text-white px-6 py-3 rounded-lg hover:gradient-bg-hover transition-all duration-300 btn-animate">
+                        <i class="fas fa-plus mr-2"></i>
+                        Nouveau projet
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-project-diagram text-blue-600 dark:text-blue-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Projets</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">24</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-play text-green-600 dark:text-green-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">En cours</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">En révision</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">4</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-check text-purple-600 dark:text-purple-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Terminés</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">2</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="searchProjects" placeholder="Rechercher un projet..." 
+                                   class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+                        
+                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <option value="">Tous les statuts</option>
+                            <option value="in-progress">En cours</option>
+                            <option value="review">En révision</option>
+                            <option value="completed">Terminé</option>
+                            <option value="on-hold">En pause</option>
+                        </select>
+                        
+                        <select id="teamFilter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <option value="">Toutes les équipes</option>
+                            <option value="IT">Team IT</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finance">Finance</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="exportProjects()" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                            <i class="fas fa-download mr-2"></i>
+                            Exporter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projectsGrid">
+                <!-- Projects will be loaded here -->
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add/Edit Project Modal -->
+<div id="projectModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-2/3 lg:w-1/2 shadow-lg rounded-md bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white" id="projectModalTitle">Nouveau projet</h3>
+                <button onclick="closeProjectModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="projectForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom du projet *</label>
+                    <input type="text" id="projectName" name="projectName" required
+                           class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
+                    <textarea id="projectDescription" name="projectDescription" rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Équipe assignée *</label>
+                        <select id="projectTeam" name="projectTeam" required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner une équipe</option>
+                            <option value="1">Team IT</option>
+                            <option value="2">Marketing</option>
+                            <option value="3">Finance</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Statut</label>
+                        <select id="projectStatus" name="projectStatus"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="planning">Planification</option>
+                            <option value="in-progress" selected>En cours</option>
+                            <option value="review">En révision</option>
+                            <option value="completed">Terminé</option>
+                            <option value="on-hold">En pause</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date limite</label>
+                        <input type="date" id="projectDeadline" name="projectDeadline"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Budget (FCFA)</label>
+                        <input type="number" id="projectBudget" name="projectBudget" min="0"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-4">
+                    <button type="button" onclick="closeProjectModal()" 
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+                    <button type="submit" 
+                            class="gradient-bg text-white px-6 py-2 rounded-md hover:gradient-bg-hover transition-all duration-300">
+                        <i class="fas fa-save mr-2"></i>
+                        Enregistrer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize projects page
+function initProjectsPage() {
+    console.log('🔧 Initializing Projects Page...');
+    
+    // Load sidebar and header
+    loadSidebar('admin');
+    loadHeader();
+    
+    // Load projects data
+    loadProjects();
+    
+    // Setup event listeners
+    setupProjectsEventListeners();
+    
+    console.log('✅ Projects Page Initialized');
+}
+
+// Setup event listeners
+function setupProjectsEventListeners() {
+    const projectForm = document.getElementById('projectForm');
+    if (projectForm) {
+        projectForm.addEventListener('submit', handleProjectSubmit);
+    }
+    
+    // Search and filters
+    const searchInput = document.getElementById('searchProjects');
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(filterProjects, 300));
+    }
+    
+    const statusFilter = document.getElementById('statusFilter');
+    const teamFilter = document.getElementById('teamFilter');
+    
+    if (statusFilter) statusFilter.addEventListener('change', filterProjects);
+    if (teamFilter) teamFilter.addEventListener('change', filterProjects);
+}
+
+// Load projects data
+async function loadProjects() {
+    try {
+        const projects = await MockData.getProjects();
+        displayProjects(projects);
+    } catch (error) {
+        console.error('Error loading projects:', error);
+        showError('Erreur lors du chargement des projets');
+    }
+}
+
+// Display projects in grid
+function displayProjects(projects) {
+    const grid = document.getElementById('projectsGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = projects.map(project => `
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 card-hover">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${project.name}</h3>
+                <div class="flex space-x-2">
+                    <button onclick="viewProject(${project.id})" class="text-bic-blue hover:text-blue-700" title="Voir">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button onclick="editProject(${project.id})" class="text-green-600 hover:text-green-700" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteProject(${project.id})" class="text-red-600 hover:text-red-700" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">${project.description}</p>
+            
+            <div class="space-y-3 mb-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Équipe</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${project.team}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Statut</span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getProjectStatusBadgeClass(project.status)}">
+                        ${getProjectStatusLabel(project.status)}
+                    </span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Progression</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${project.progress}%</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Budget</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${formatCurrency(project.budget)}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Échéance</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${formatDate(project.deadline)}</span>
+                </div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div class="mb-4">
+                <div class="flex justify-between text-sm mb-1">
+                    <span class="text-gray-600 dark:text-gray-400">Progression</span>
+                    <span class="text-gray-900 dark:text-white font-medium">${project.progress}%</span>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div class="bg-gradient-to-r from-gradient-start to-gradient-end h-2 rounded-full transition-all duration-300" 
+                         style="width: ${project.progress}%"></div>
+                </div>
+            </div>
+            
+            <button onclick="viewProject(${project.id})" class="w-full gradient-bg text-white py-2 rounded-lg hover:gradient-bg-hover transition-all duration-300">
+                Voir le projet
+            </button>
+        </div>
+    `).join('');
+}
+
+// Helper functions
+function getProjectStatusBadgeClass(status) {
+    const classes = {
+        'planning': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200',
+        'in-progress': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+        'review': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+        'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+        'on-hold': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    };
+    return classes[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+}
+
+function getProjectStatusLabel(status) {
+    const labels = {
+        'planning': 'Planification',
+        'in-progress': 'En cours',
+        'review': 'En révision',
+        'completed': 'Terminé',
+        'on-hold': 'En pause'
+    };
+    return labels[status] || status;
+}
+
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'XOF',
+        minimumFractionDigits: 0
+    }).format(amount);
+}
+
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('fr-FR');
+}
+
+// Modal functions
+function openAddProjectModal() {
+    document.getElementById('projectModalTitle').textContent = 'Nouveau projet';
+    document.getElementById('projectForm').reset();
+    document.getElementById('projectModal').classList.remove('hidden');
+}
+
+function editProject(projectId) {
+    document.getElementById('projectModalTitle').textContent = 'Modifier le projet';
+    // Load project data into form
+    document.getElementById('projectModal').classList.remove('hidden');
+}
+
+function closeProjectModal() {
+    document.getElementById('projectModal').classList.add('hidden');
+}
+
+function viewProject(projectId) {
+    Router.navigate(`/admin/project/${projectId}`);
+}
+
+function deleteProject(projectId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce projet ?')) {
+        showSuccess('Projet supprimé avec succès');
+        loadProjects();
+    }
+}
+
+// Filter projects
+function filterProjects() {
+    const searchTerm = document.getElementById('searchProjects').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const teamFilter = document.getElementById('teamFilter').value;
+    
+    console.log('Filtering projects:', { searchTerm, statusFilter, teamFilter });
+    loadProjects(); // Reload with filters
+}
+
+// Export projects
+function exportProjects() {
+    showSuccess('Export en cours...');
+}
+
+// Handle project form submission
+function handleProjectSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const projectData = Object.fromEntries(formData);
+    
+    console.log('Saving project:', projectData);
+    
+    setTimeout(() => {
+        showSuccess('Projet enregistré avec succès');
+        closeProjectModal();
+        loadProjects();
+    }, 1000);
+}
+</script>
+

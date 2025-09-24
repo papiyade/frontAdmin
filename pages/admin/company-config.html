@@ -1,0 +1,332 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                    <i class="fas fa-cog text-bic-blue mr-3"></i>
+                    Configuration de l'Entreprise
+                </h1>
+                <p class="text-gray-600 dark:text-gray-400">Mettez à jour les informations essentielles de votre entreprise</p>
+            </div>
+
+            <!-- Wizard Progress -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-bic-blue text-white rounded-full flex items-center justify-center text-sm font-medium">1</div>
+                            <span class="ml-2 text-sm font-medium text-gray-900 dark:text-white">Identité</span>
+                        </div>
+                        <div class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full flex items-center justify-center text-sm font-medium">2</div>
+                            <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">Contact</span>
+                        </div>
+                        <div class="w-16 h-1 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-full flex items-center justify-center text-sm font-medium">3</div>
+                            <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">Description</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configuration Form -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8">
+                <form id="companyConfigForm">
+                    <!-- Step 1: Company Identity -->
+                    <div id="step1" class="wizard-step">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Identité de votre entreprise</h2>
+                        
+                        <!-- Logo Upload -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Logo de l'entreprise (optionnel)</label>
+                            <div class="flex items-center space-x-6">
+                                <div class="w-24 h-24 bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300 dark:border-gray-600">
+                                    <i class="fas fa-building text-2xl text-gray-400"></i>
+                                </div>
+                                <div>
+                                    <button type="button" class="gradient-bg text-white px-4 py-2 rounded-lg hover:gradient-bg-hover transition-all duration-300">
+                                        <i class="fas fa-upload mr-2"></i>
+                                        Télécharger un logo
+                                    </button>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">PNG, JPG jusqu'à 2MB</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Company Name -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom de l'entreprise *</label>
+                            <input type="text" id="companyName" name="companyName" required value="TechCorp SARL"
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+
+                        <!-- Sector -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Secteur d'activité *</label>
+                            <select id="sector" name="sector" required
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                                <option value="">Sélectionner un secteur</option>
+                                <option value="technology" selected>Technologie</option>
+                                <option value="finance">Finance</option>
+                                <option value="healthcare">Santé</option>
+                                <option value="education">Éducation</option>
+                                <option value="retail">Commerce</option>
+                                <option value="manufacturing">Industrie</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Contact Information -->
+                    <div id="step2" class="wizard-step hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Informations de contact</h2>
+                        
+                        <!-- Address -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Adresse complète *</label>
+                            <textarea id="address" name="address" required rows="3"
+                                      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">Dakar, Sénégal</textarea>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Adresse email professionnelle *</label>
+                            <input type="email" id="email" name="email" required value="contact@techcorp.sn"
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Téléphone *</label>
+                            <input type="tel" id="phone" name="phone" required value="+221 33 123 45 67"
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+
+                        <!-- Website -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Site web</label>
+                            <input type="url" id="website" name="website" value="https://techcorp.sn"
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Company Description -->
+                    <div id="step3" class="wizard-step hidden">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Décrivez votre entreprise</h2>
+                        
+                        <!-- Description -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description de l'entreprise</label>
+                            <textarea id="description" name="description" rows="6" placeholder="Décrivez votre entreprise, ses activités, sa mission..."
+                                      class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">TechCorp SARL est une entreprise de technologie innovante spécialisée dans le développement de solutions logicielles sur mesure.</textarea>
+                        </div>
+
+                        <!-- Company Size -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Taille de l'entreprise</label>
+                            <select id="companySize" name="companySize"
+                                    class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                                <option value="">Sélectionner la taille</option>
+                                <option value="1-10">1-10 employés</option>
+                                <option value="11-50">11-50 employés</option>
+                                <option value="51-200" selected>51-200 employés</option>
+                                <option value="201-500">201-500 employés</option>
+                                <option value="500+">500+ employés</option>
+                            </select>
+                        </div>
+
+                        <!-- Founded Year -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Année de création</label>
+                            <input type="number" id="foundedYear" name="foundedYear" min="1900" max="2024" value="2020"
+                                   class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+                        <button type="button" id="prevBtn" onclick="changeStep(-1)" 
+                                class="px-6 py-3 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors hidden">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Précédent
+                        </button>
+                        
+                        <div class="flex space-x-3">
+                            <button type="button" id="nextBtn" onclick="changeStep(1)" 
+                                    class="gradient-bg text-white px-6 py-3 rounded-lg hover:gradient-bg-hover transition-all duration-300">
+                                Suivant
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                            
+                            <button type="submit" id="submitBtn" 
+                                    class="gradient-bg text-white px-6 py-3 rounded-lg hover:gradient-bg-hover transition-all duration-300 hidden">
+                                <i class="fas fa-save mr-2"></i>
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+let currentStep = 1;
+const totalSteps = 3;
+
+// Initialize company config page
+function initCompanyConfigPage() {
+    console.log('🔧 Initializing Company Config Page...');
+    
+    // Load sidebar and header
+    loadSidebar('admin');
+    loadHeader();
+    
+    // Setup form handlers
+    setupWizardForm();
+    
+    console.log('✅ Company Config Page Initialized');
+}
+
+// Setup wizard form
+function setupWizardForm() {
+    const form = document.getElementById('companyConfigForm');
+    if (form) {
+        form.addEventListener('submit', handleFormSubmit);
+    }
+    
+    updateWizardUI();
+}
+
+// Change wizard step
+function changeStep(direction) {
+    const newStep = currentStep + direction;
+    
+    if (newStep < 1 || newStep > totalSteps) return;
+    
+    // Validate current step before proceeding
+    if (direction > 0 && !validateStep(currentStep)) {
+        return;
+    }
+    
+    // Hide current step
+    document.getElementById(`step${currentStep}`).classList.add('hidden');
+    
+    // Show new step
+    currentStep = newStep;
+    document.getElementById(`step${currentStep}`).classList.remove('hidden');
+    
+    // Update UI
+    updateWizardUI();
+    updateProgressBar();
+}
+
+// Validate current step
+function validateStep(step) {
+    const stepElement = document.getElementById(`step${step}`);
+    const requiredFields = stepElement.querySelectorAll('[required]');
+    
+    for (let field of requiredFields) {
+        if (!field.value.trim()) {
+            field.focus();
+            showError(`Veuillez remplir le champ "${field.previousElementSibling.textContent}"`);
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// Update wizard UI
+function updateWizardUI() {
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Show/hide previous button
+    if (currentStep === 1) {
+        prevBtn.classList.add('hidden');
+    } else {
+        prevBtn.classList.remove('hidden');
+    }
+    
+    // Show/hide next/submit buttons
+    if (currentStep === totalSteps) {
+        nextBtn.classList.add('hidden');
+        submitBtn.classList.remove('hidden');
+    } else {
+        nextBtn.classList.remove('hidden');
+        submitBtn.classList.add('hidden');
+    }
+}
+
+// Update progress bar
+function updateProgressBar() {
+    // Update step indicators
+    for (let i = 1; i <= totalSteps; i++) {
+        const stepIndicator = document.querySelector(`.flex:nth-child(${i * 2 - 1}) .w-8`);
+        const stepLabel = document.querySelector(`.flex:nth-child(${i * 2 - 1}) span`);
+        const progressBar = document.querySelector(`.flex:nth-child(${i * 2}) .w-16`);
+        
+        if (i <= currentStep) {
+            stepIndicator.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-600', 'dark:text-gray-400');
+            stepIndicator.classList.add('bg-bic-blue', 'text-white');
+            stepLabel.classList.remove('text-gray-500', 'dark:text-gray-400');
+            stepLabel.classList.add('text-gray-900', 'dark:text-white');
+        } else {
+            stepIndicator.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-600', 'dark:text-gray-400');
+            stepIndicator.classList.remove('bg-bic-blue', 'text-white');
+            stepLabel.classList.add('text-gray-500', 'dark:text-gray-400');
+            stepLabel.classList.remove('text-gray-900', 'dark:text-white');
+        }
+        
+        if (progressBar && i < currentStep) {
+            progressBar.classList.remove('bg-gray-200', 'dark:bg-gray-700');
+            progressBar.classList.add('bg-bic-blue');
+        } else if (progressBar) {
+            progressBar.classList.add('bg-gray-200', 'dark:bg-gray-700');
+            progressBar.classList.remove('bg-bic-blue');
+        }
+    }
+}
+
+// Handle form submission
+function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    if (!validateStep(currentStep)) {
+        return;
+    }
+    
+    const formData = new FormData(e.target);
+    const companyData = Object.fromEntries(formData);
+    
+    console.log('Saving company config:', companyData);
+    
+    // Show loading state
+    const submitBtn = document.getElementById('submitBtn');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enregistrement...';
+    submitBtn.disabled = true;
+    
+    // Simulate API call
+    setTimeout(() => {
+        showSuccess('Configuration de l\'entreprise mise à jour avec succès !');
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }, 2000);
+}
+</script>
+
