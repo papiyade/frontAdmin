@@ -545,4 +545,154 @@ class MockData {
             reports: '/api/reports'
         };
     }
+
+    // Get applications data
+    static async getApplications() {
+        return [
+            {
+                id: 1,
+                candidate_name: 'Aminata Diallo',
+                email: 'aminata.diallo@email.com',
+                phone: '+221 77 123 45 67',
+                position: 'Développeur Frontend',
+                experience: '3 ans d\'expérience en développement web avec React et Vue.js. Passionnée par l\'UX/UI et les nouvelles technologies.',
+                status: 'pending',
+                applied_at: '2024-09-20'
+            },
+            {
+                id: 2,
+                candidate_name: 'Moussa Ba',
+                email: 'moussa.ba@email.com',
+                phone: '+221 78 987 65 43',
+                position: 'Designer UX/UI',
+                experience: '5 ans d\'expérience en design d\'interfaces utilisateur. Expert en Figma, Adobe Creative Suite.',
+                status: 'reviewed',
+                applied_at: '2024-09-18'
+            },
+            {
+                id: 3,
+                candidate_name: 'Fatou Sall',
+                email: 'fatou.sall@email.com',
+                phone: '+221 76 456 78 90',
+                position: 'Chef de Projet',
+                experience: '7 ans d\'expérience en gestion de projets IT. Certifiée PMP et Scrum Master.',
+                status: 'accepted',
+                applied_at: '2024-09-15'
+            },
+            {
+                id: 4,
+                candidate_name: 'Omar Ndiaye',
+                email: 'omar.ndiaye@email.com',
+                phone: '+221 77 321 54 87',
+                position: 'Développeur Backend',
+                experience: '4 ans d\'expérience avec Node.js, Python et bases de données. Spécialisé en APIs REST.',
+                status: 'rejected',
+                applied_at: '2024-09-12'
+            }
+        ];
+    }
+
+    // Get job offers data
+    static async getJobOffers() {
+        return [
+            {
+                id: 1,
+                title: 'Développeur Frontend Senior',
+                department: 'IT',
+                type: 'CDI',
+                level: 'Senior',
+                location: 'Dakar, Sénégal',
+                salary_min: 800000,
+                salary_max: 1200000,
+                description: 'Nous recherchons un développeur frontend senior pour rejoindre notre équipe dynamique. Vous travaillerez sur des projets innovants utilisant les dernières technologies.',
+                requirements: 'React, Vue.js, TypeScript, 5+ ans d\'expérience',
+                status: 'active',
+                applications_count: 23,
+                deadline: '2024-10-30',
+                created_at: '2024-09-01'
+            },
+            {
+                id: 2,
+                title: 'Designer UX/UI',
+                department: 'Design',
+                type: 'CDI',
+                level: 'Confirmé',
+                location: 'Dakar, Sénégal',
+                salary_min: 600000,
+                salary_max: 900000,
+                description: 'Rejoignez notre équipe créative en tant que designer UX/UI. Vous concevrez des interfaces utilisateur intuitives et attrayantes.',
+                requirements: 'Figma, Adobe Creative Suite, 3+ ans d\'expérience',
+                status: 'active',
+                applications_count: 18,
+                deadline: '2024-11-15',
+                created_at: '2024-09-05'
+            },
+            {
+                id: 3,
+                title: 'Chef de Projet Digital',
+                department: 'Management',
+                type: 'CDI',
+                level: 'Senior',
+                location: 'Dakar, Sénégal',
+                salary_min: 1000000,
+                salary_max: 1500000,
+                description: 'Nous cherchons un chef de projet expérimenté pour piloter nos projets digitaux stratégiques.',
+                requirements: 'PMP, Agile/Scrum, 5+ ans d\'expérience',
+                status: 'paused',
+                applications_count: 12,
+                deadline: '2024-12-01',
+                created_at: '2024-08-20'
+            }
+        ];
+    }
+
+    // Get projects data
+    static async getProjects() {
+        return [
+            {
+                id: 1,
+                name: 'Plateforme E-commerce',
+                description: 'Développement d\'une plateforme e-commerce moderne avec React et Node.js',
+                team: 'Team IT',
+                status: 'in-progress',
+                progress: 75,
+                budget: 5000000,
+                deadline: '2024-12-15',
+                created_at: '2024-06-01'
+            },
+            {
+                id: 2,
+                name: 'Application Mobile RH',
+                description: 'Application mobile pour la gestion des ressources humaines',
+                team: 'Team Mobile',
+                status: 'in-progress',
+                progress: 45,
+                budget: 3500000,
+                deadline: '2024-11-30',
+                created_at: '2024-07-15'
+            },
+            {
+                id: 3,
+                name: 'Système de Facturation',
+                description: 'Système automatisé de facturation et comptabilité',
+                team: 'Team Finance',
+                status: 'review',
+                progress: 90,
+                budget: 2800000,
+                deadline: '2024-10-20',
+                created_at: '2024-05-10'
+            },
+            {
+                id: 4,
+                name: 'Site Web Corporate',
+                description: 'Refonte complète du site web de l\'entreprise',
+                team: 'Team Design',
+                status: 'completed',
+                progress: 100,
+                budget: 1500000,
+                deadline: '2024-09-01',
+                created_at: '2024-03-01'
+            }
+        ];
+    }
 }

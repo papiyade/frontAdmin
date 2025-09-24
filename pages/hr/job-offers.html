@@ -1,0 +1,479 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                            <i class="fas fa-briefcase text-bic-blue mr-3"></i>
+                            Offres d'Emploi
+                        </h1>
+                        <p class="text-gray-600 dark:text-gray-400">Gérez toutes les offres d'emploi publiées</p>
+                    </div>
+                    <div class="flex space-x-3">
+                        <button onclick="Router.navigate('/hr/applications')" class="px-4 py-2 border border-bic-blue text-bic-blue rounded-lg hover:bg-bic-blue hover:text-white transition-colors">
+                            <i class="fas fa-file-alt mr-2"></i>
+                            Voir candidatures
+                        </button>
+                        <button onclick="openAddJobOfferModal()" class="gradient-bg text-white px-6 py-3 rounded-lg hover:gradient-bg-hover transition-all duration-300">
+                            <i class="fas fa-plus mr-2"></i>
+                            Nouvelle offre
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-briefcase text-blue-600 dark:text-blue-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Offres</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">24</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-play text-green-600 dark:text-green-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Actives</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">18</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-pause text-yellow-600 dark:text-yellow-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">En pause</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">4</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center">
+                        <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-purple-600 dark:text-purple-400 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Candidatures</p>
+                            <p class="text-2xl font-bold text-gray-900 dark:text-white">247</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        <div class="relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" id="searchOffers" placeholder="Rechercher une offre..." 
+                                   class="pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                        </div>
+                        
+                        <select id="statusFilter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <option value="">Tous les statuts</option>
+                            <option value="active">Active</option>
+                            <option value="paused">En pause</option>
+                            <option value="closed">Fermée</option>
+                        </select>
+                        
+                        <select id="departmentFilter" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-bic-blue focus:border-transparent dark:bg-gray-700 dark:text-white">
+                            <option value="">Tous les départements</option>
+                            <option value="IT">IT</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finance">Finance</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button onclick="refreshOffers()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-refresh mr-2"></i>
+                            Actualiser
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Offers Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="jobOffersGrid">
+                <!-- Job offers will be loaded here -->
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- Add/Edit Job Offer Modal -->
+<div id="jobOfferModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-10 mx-auto p-5 border w-11/12 md:w-4/5 lg:w-3/4 shadow-lg rounded-md bg-white dark:bg-gray-800">
+        <div class="mt-3">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white" id="jobOfferModalTitle">Nouvelle offre d'emploi</h3>
+                <button onclick="closeJobOfferModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="jobOfferForm" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Titre du poste *</label>
+                        <input type="text" id="jobTitle" name="jobTitle" required
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Département *</label>
+                        <select id="jobDepartment" name="jobDepartment" required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner un département</option>
+                            <option value="IT">IT</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Finance">Finance</option>
+                            <option value="RH">RH</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type de contrat *</label>
+                        <select id="jobType" name="jobType" required
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner le type</option>
+                            <option value="CDI">CDI</option>
+                            <option value="CDD">CDD</option>
+                            <option value="Stage">Stage</option>
+                            <option value="Freelance">Freelance</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Niveau d'expérience</label>
+                        <select id="jobLevel" name="jobLevel"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="">Sélectionner le niveau</option>
+                            <option value="Junior">Junior (0-2 ans)</option>
+                            <option value="Confirmé">Confirmé (3-5 ans)</option>
+                            <option value="Senior">Senior (5+ ans)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Localisation</label>
+                        <input type="text" id="jobLocation" name="jobLocation" value="Dakar, Sénégal"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Salaire minimum (FCFA)</label>
+                        <input type="number" id="jobSalaryMin" name="jobSalaryMin" min="0"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Salaire maximum (FCFA)</label>
+                        <input type="number" id="jobSalaryMax" name="jobSalaryMax" min="0"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description du poste *</label>
+                    <textarea id="jobDescription" name="jobDescription" rows="4" required
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Compétences requises</label>
+                    <textarea id="jobRequirements" name="jobRequirements" rows="3"
+                              class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date limite de candidature</label>
+                        <input type="date" id="jobDeadline" name="jobDeadline"
+                               class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Statut</label>
+                        <select id="jobStatus" name="jobStatus"
+                                class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-bic-blue dark:bg-gray-700 dark:text-white">
+                            <option value="active">Active</option>
+                            <option value="paused">En pause</option>
+                            <option value="closed">Fermée</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200 dark:border-gray-700">
+                    <button type="button" onclick="closeJobOfferModal()" 
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                        Annuler
+                    </button>
+                    <button type="submit" 
+                            class="gradient-bg text-white px-6 py-2 rounded-md hover:gradient-bg-hover transition-all duration-300">
+                        <i class="fas fa-save mr-2"></i>
+                        Publier l'offre
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+// Initialize job offers page
+function initJobOffersPage() {
+    console.log('🔧 Initializing Job Offers Page...');
+    
+    // Load sidebar and header
+    loadSidebar('hr');
+    loadHeader();
+    
+    // Load job offers data
+    loadJobOffers();
+    
+    // Setup event listeners
+    setupJobOffersEventListeners();
+    
+    console.log('✅ Job Offers Page Initialized');
+}
+
+// Setup event listeners
+function setupJobOffersEventListeners() {
+    const searchInput = document.getElementById('searchOffers');
+    if (searchInput) {
+        searchInput.addEventListener('input', debounce(filterJobOffers, 300));
+    }
+    
+    const statusFilter = document.getElementById('statusFilter');
+    const departmentFilter = document.getElementById('departmentFilter');
+    
+    if (statusFilter) statusFilter.addEventListener('change', filterJobOffers);
+    if (departmentFilter) departmentFilter.addEventListener('change', filterJobOffers);
+    
+    const jobOfferForm = document.getElementById('jobOfferForm');
+    if (jobOfferForm) {
+        jobOfferForm.addEventListener('submit', handleJobOfferSubmit);
+    }
+}
+
+// Load job offers data
+async function loadJobOffers() {
+    try {
+        const jobOffers = await MockData.getJobOffers();
+        displayJobOffers(jobOffers);
+    } catch (error) {
+        console.error('Error loading job offers:', error);
+        showError('Erreur lors du chargement des offres d\'emploi');
+    }
+}
+
+// Display job offers
+function displayJobOffers(jobOffers) {
+    const grid = document.getElementById('jobOffersGrid');
+    if (!grid) return;
+    
+    grid.innerHTML = jobOffers.map(offer => `
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 card-hover">
+            <div class="flex items-center justify-between mb-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">${offer.title}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">${offer.department}</p>
+                </div>
+                <div class="flex space-x-2">
+                    <button onclick="copyJobOfferLink(${offer.id})" class="text-blue-600 hover:text-blue-700" title="Copier le lien">
+                        <i class="fas fa-link"></i>
+                    </button>
+                    <button onclick="editJobOffer(${offer.id})" class="text-green-600 hover:text-green-700" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button onclick="deleteJobOffer(${offer.id})" class="text-red-600 hover:text-red-700" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="space-y-3 mb-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Type</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${offer.type}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Niveau</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${offer.level}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Localisation</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${offer.location}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Salaire</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${formatSalaryRange(offer.salary_min, offer.salary_max)}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Candidatures</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${offer.applications_count}</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-600 dark:text-gray-400">Date limite</span>
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">${formatDate(offer.deadline)}</span>
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <p class="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">${offer.description}</p>
+            </div>
+            
+            <div class="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${getJobOfferStatusBadgeClass(offer.status)}">
+                    ${getJobOfferStatusLabel(offer.status)}
+                </span>
+                <div class="flex space-x-2">
+                    <button onclick="viewJobOfferApplications(${offer.id})" class="text-sm px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded hover:bg-blue-200 dark:hover:bg-blue-800">
+                        ${offer.applications_count} candidatures
+                    </button>
+                    <button onclick="toggleJobOfferStatus(${offer.id})" class="text-sm px-3 py-1 ${offer.status === 'active' ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300' : 'bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300'} rounded hover:opacity-80">
+                        ${offer.status === 'active' ? 'Mettre en pause' : 'Activer'}
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Helper functions
+function getJobOfferStatusBadgeClass(status) {
+    const classes = {
+        'active': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+        'paused': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+        'closed': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    };
+    return classes[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+}
+
+function getJobOfferStatusLabel(status) {
+    const labels = {
+        'active': 'Active',
+        'paused': 'En pause',
+        'closed': 'Fermée'
+    };
+    return labels[status] || status;
+}
+
+function formatSalaryRange(min, max) {
+    if (!min && !max) return 'Non spécifié';
+    if (!max) return `${formatCurrency(min)}+`;
+    if (!min) return `Jusqu'à ${formatCurrency(max)}`;
+    return `${formatCurrency(min)} - ${formatCurrency(max)}`;
+}
+
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('fr-FR', {
+        style: 'currency',
+        currency: 'XOF',
+        minimumFractionDigits: 0
+    }).format(amount);
+}
+
+function formatDate(dateString) {
+    return new Date(dateString).toLocaleDateString('fr-FR');
+}
+
+// Modal functions
+function openAddJobOfferModal() {
+    document.getElementById('jobOfferModalTitle').textContent = 'Nouvelle offre d\'emploi';
+    document.getElementById('jobOfferForm').reset();
+    document.getElementById('jobOfferModal').classList.remove('hidden');
+}
+
+function editJobOffer(offerId) {
+    document.getElementById('jobOfferModalTitle').textContent = 'Modifier l\'offre d\'emploi';
+    // Load job offer data into form
+    document.getElementById('jobOfferModal').classList.remove('hidden');
+}
+
+function closeJobOfferModal() {
+    document.getElementById('jobOfferModal').classList.add('hidden');
+}
+
+function deleteJobOffer(offerId) {
+    if (confirm('Êtes-vous sûr de vouloir supprimer cette offre d\'emploi ?')) {
+        showSuccess('Offre d\'emploi supprimée avec succès');
+        loadJobOffers();
+    }
+}
+
+function copyJobOfferLink(offerId) {
+    const link = `${window.location.origin}/jobs/${offerId}`;
+    navigator.clipboard.writeText(link).then(() => {
+        showSuccess('Lien copié dans le presse-papiers');
+    }).catch(() => {
+        showError('Erreur lors de la copie du lien');
+    });
+}
+
+function toggleJobOfferStatus(offerId) {
+    showSuccess('Statut de l\'offre modifié');
+    loadJobOffers();
+}
+
+function viewJobOfferApplications(offerId) {
+    Router.navigate(`/hr/applications?offer=${offerId}`);
+}
+
+// Filter job offers
+function filterJobOffers() {
+    const searchTerm = document.getElementById('searchOffers').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+    const departmentFilter = document.getElementById('departmentFilter').value;
+    
+    console.log('Filtering job offers:', { searchTerm, statusFilter, departmentFilter });
+    loadJobOffers(); // Reload with filters
+}
+
+// Refresh job offers
+function refreshJobOffers() {
+    loadJobOffers();
+    showSuccess('Liste actualisée');
+}
+
+// Handle job offer form submission
+function handleJobOfferSubmit(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(e.target);
+    const jobOfferData = Object.fromEntries(formData);
+    
+    console.log('Saving job offer:', jobOfferData);
+    
+    setTimeout(() => {
+        showSuccess('Offre d\'emploi publiée avec succès');
+        closeJobOfferModal();
+        loadJobOffers();
+    }, 1000);
+}
+</script>
+
