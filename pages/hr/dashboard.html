@@ -1,0 +1,397 @@
+<div class="flex h-screen bg-gray-50 dark:bg-night-blue">
+    <!-- Sidebar -->
+    <div id="sidebarContainer"></div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden lg:ml-64">
+        <!-- Header -->
+        <div id="headerContainer"></div>
+        
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+            <!-- Welcome Section -->
+            <div class="mb-8">
+                <div class="bg-gradient-to-r from-gradient-start to-gradient-end rounded-2xl p-8 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h1 class="text-3xl font-bold mb-2">Tableau de Bord RH 👥</h1>
+                            <p class="text-blue-100 text-lg">Aperçu des ressources humaines de votre entreprise</p>
+                            <div class="mt-4 flex items-center space-x-4">
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-building text-blue-200"></i>
+                                    <span id="companyName" class="text-blue-100">TechCorp SARL</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <i class="fas fa-calendar text-blue-200"></i>
+                                    <span class="text-blue-100">Aujourd'hui: ${new Date().toLocaleDateString('fr-FR')}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hidden md:block">
+                            <div class="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-users text-4xl text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Employés Totaux</p>
+                            <p class="text-3xl font-bold text-gray-900 dark:text-white">156</p>
+                            <button onclick="Router.navigate('/hr/employees')" class="text-sm text-bic-blue hover:text-blue-700 font-medium mt-2">
+                                → Voir tous les employés
+                            </button>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-white text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Offres Actives</p>
+                            <p class="text-3xl font-bold text-gray-900 dark:text-white">8</p>
+                            <button onclick="Router.navigate('/hr/job-offers')" class="text-sm text-green-600 hover:text-green-700 font-medium mt-2">
+                                → Gérer les offres
+                            </button>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-briefcase text-white text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Candidatures en Attente</p>
+                            <p class="text-3xl font-bold text-gray-900 dark:text-white">23</p>
+                            <button onclick="Router.navigate('/hr/applications')" class="text-sm text-yellow-600 hover:text-yellow-700 font-medium mt-2">
+                                → Examiner les candidatures
+                            </button>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-alt text-white text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 card-hover">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">Équipes Totales</p>
+                            <p class="text-3xl font-bold text-gray-900 dark:text-white">12</p>
+                            <button onclick="Router.navigate('/hr/teams')" class="text-sm text-purple-600 hover:text-purple-700 font-medium mt-2">
+                                → Gérer les équipes
+                            </button>
+                        </div>
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users-cog text-white text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- Employee Distribution Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Répartition des Employés</h3>
+                        <i class="fas fa-info-circle text-gray-400 cursor-help" title="Répartition par département"></i>
+                    </div>
+                    <canvas id="employeeChart" width="400" height="200"></canvas>
+                </div>
+                
+                <!-- Recruitment Stats Chart -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Statistiques de Recrutement</h3>
+                        <div class="flex space-x-2">
+                            <button class="text-sm px-3 py-1 bg-bic-blue text-white rounded-lg">6M</button>
+                            <button class="text-sm px-3 py-1 text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">1A</button>
+                        </div>
+                    </div>
+                    <canvas id="recruitmentChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            
+            <!-- Recent Applications & Quick Actions -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Recent Applications -->
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Candidatures Récentes</h3>
+                            <button onclick="Router.navigate('/hr/applications')" class="text-bic-blue hover:text-blue-700 text-sm font-medium">
+                                Voir tout <i class="fas fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div id="recentApplications">
+                            <p class="text-gray-500 dark:text-gray-400 text-center py-8">Aucune candidature récente</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Actions Rapides</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <button onclick="UIComponents.openModal('addEmployeeModal')" class="w-full flex items-center justify-center px-4 py-3 gradient-bg text-white rounded-lg hover:gradient-bg-hover transition-all duration-300 btn-animate">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Nouvel Employé
+                        </button>
+                        <button onclick="UIComponents.openModal('addJobOfferModal')" class="w-full flex items-center justify-center px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-300">
+                            <i class="fas fa-briefcase mr-2"></i>
+                            Nouvelle Offre
+                        </button>
+                        <button onclick="Router.navigate('/hr/teams')" class="w-full flex items-center justify-center px-4 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all duration-300">
+                            <i class="fas fa-users-cog mr-2"></i>
+                            Gérer Équipes
+                        </button>
+                        <button onclick="generateHRReport()" class="w-full flex items-center justify-center px-4 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-all duration-300">
+                            <i class="fas fa-file-pdf mr-2"></i>
+                            Rapport RH
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Statistics & Notifications -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Monthly Statistics -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Statistiques du Mois</h3>
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">45</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Candidatures</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">12</div>
+                                <div class="text-sm text-gray-600 dark:text-gray-400">Employés</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Notifications & Alerts -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Notifications & Alertes</h3>
+                    </div>
+                    <div class="p-6 space-y-4">
+                        <div class="flex items-center space-x-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                            <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">23 candidatures en attente de traitement</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+                            <i class="fas fa-info-circle text-blue-600"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">8 offres d'emploi actives</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                            <i class="fas fa-calendar text-green-600"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white">Prochaine évaluation dans 5 jours</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+// Initialize HR Dashboard
+function initHRDashboard() {
+    const user = Auth.getUser();
+    
+    // Render sidebar and header
+    document.getElementById('sidebarContainer').innerHTML = UIComponents.getSidebar(user.role);
+    document.getElementById('headerContainer').innerHTML = UIComponents.getHeader('Tableau de Bord RH', 'Aperçu des ressources humaines');
+    
+    // Initialize sidebar functionality
+    UIComponents.initSidebar();
+    
+    // Update company name
+    document.getElementById('companyName').textContent = user.company || 'Mon Entreprise';
+    
+    // Load charts
+    loadHRCharts();
+    
+    // Load recent applications
+    loadRecentApplications();
+}
+
+// Load HR charts
+function loadHRCharts() {
+    // Employee Distribution Chart
+    const employeeCtx = document.getElementById('employeeChart').getContext('2d');
+    new Chart(employeeCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['IT', 'Marketing', 'Finance', 'RH', 'Ventes', 'Support'],
+            datasets: [{
+                data: [35, 25, 20, 15, 30, 18],
+                backgroundColor: [
+                    '#3b82f6', '#10b981', '#8b5cf6', 
+                    '#f59e0b', '#ef4444', '#06b6d4'
+                ],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
+    });
+    
+    // Recruitment Stats Chart
+    const recruitmentCtx = document.getElementById('recruitmentChart').getContext('2d');
+    new Chart(recruitmentCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun'],
+            datasets: [{
+                label: 'Candidatures',
+                data: [25, 35, 28, 45, 38, 52],
+                borderColor: '#3b82f6',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Embauches',
+                data: [5, 8, 6, 12, 9, 15],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Load recent applications
+function loadRecentApplications() {
+    const applications = [
+        { name: 'Marie Dubois', position: 'Développeur Frontend', date: '2024-09-22', status: 'pending' },
+        { name: 'Jean Dupont', position: 'Designer UX/UI', date: '2024-09-21', status: 'interview' },
+        { name: 'Sophie Martin', position: 'Chef de Projet', date: '2024-09-20', status: 'pending' },
+        { name: 'Pierre Moreau', position: 'Développeur Backend', date: '2024-09-19', status: 'accepted' },
+        { name: 'Julie Bernard', position: 'Commercial', date: '2024-09-18', status: 'rejected' }
+    ];
+    
+    if (applications.length === 0) {
+        document.getElementById('recentApplications').innerHTML = 
+            '<p class="text-gray-500 dark:text-gray-400 text-center py-8">Aucune candidature récente</p>';
+        return;
+    }
+    
+    const applicationsHTML = applications.map(app => `
+        <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+            <div class="flex items-center space-x-4">
+                <div class="w-10 h-10 ${Utils.randomColor()} rounded-full flex items-center justify-center">
+                    <span class="text-white font-semibold text-sm">${Utils.getInitials(app.name)}</span>
+                </div>
+                <div>
+                    <h4 class="font-medium text-gray-900 dark:text-white">${app.name}</h4>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">${app.position}</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="px-2 py-1 text-xs rounded-full ${
+                    app.status === 'accepted' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300' :
+                    app.status === 'rejected' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300' :
+                    app.status === 'interview' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300' :
+                    'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
+                }">
+                    ${app.status === 'accepted' ? 'Accepté' : 
+                      app.status === 'rejected' ? 'Rejeté' : 
+                      app.status === 'interview' ? 'Entretien' : 'En attente'}
+                </span>
+                <span class="text-sm text-gray-500 dark:text-gray-400">${Utils.formatDate(app.date)}</span>
+            </div>
+        </div>
+    `).join('');
+    
+    document.getElementById('recentApplications').innerHTML = applicationsHTML;
+}
+
+// Generate HR Report
+function generateHRReport() {
+    Utils.showToast('Génération du rapport RH...', 'info');
+    
+    setTimeout(() => {
+        const reportData = {
+            employees: 156,
+            applications: 45,
+            jobOffers: 8,
+            teams: 12,
+            generatedAt: new Date().toISOString()
+        };
+        
+        const blob = new Blob([JSON.stringify(reportData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `rapport-rh-${Utils.formatDate(new Date(), 'yyyy-mm-dd')}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        Utils.showToast('Rapport RH généré avec succès !', 'success');
+    }, 2000);
+}
+</script>
